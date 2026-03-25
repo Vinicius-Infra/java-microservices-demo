@@ -13,7 +13,7 @@ import java_microservices.demo.model.User;
 import java_microservices.demo.service.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping
 public class UserController {
 	
 	private final UserService service;
@@ -22,9 +22,9 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping
-    public List<User> getUsers() {
-        return service.getAllUsers();
+    @GetMapping("/users")
+    public List<String> getUsers() {
+        return List.of("Vinicius", "Maria", "João");
     }
 
     @PostMapping

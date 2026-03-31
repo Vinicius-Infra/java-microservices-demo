@@ -1,11 +1,9 @@
-package java_microservices.demo.service;
+package com.demo.microservices.service;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
-import java_microservices.demo.model.User;
-import java_microservices.demo.repository.UserRepository;
+import com.demo.microservices.model.User;
+import com.demo.microservices.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -19,6 +17,11 @@ public class UserService {
     public List<User> findAll() {
         return repository.findAll();
     }
+    
+    public User findById(Long id) {
+        return repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id " + id));
+    }
 
     public User save(User user) {
         return repository.save(user);
@@ -27,4 +30,5 @@ public class UserService {
     public void delete(Long id) {
         repository.deleteById(id);
     }
+
 }

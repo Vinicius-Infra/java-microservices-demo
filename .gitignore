@@ -1,0 +1,44 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Eclipse / STS
+.classpath
+.project
+.settings/
+bin/
+
+# IntelliJ IDEA
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Spring Boot
+# Arquivos gerados em runtime
+*.pid
+
+# Test coverage / reports
+*.coverage
+*.coverage.xml
+*.cov
+*.lcov
+*.lcov.info
+
+# Arquivos temporários
+*.swp
+*.swo

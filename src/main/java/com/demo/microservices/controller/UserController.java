@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.demo.microservices.model.User;
 import com.demo.microservices.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -27,25 +29,24 @@ public class UserController {
 	public List<User> getUsers() {
 		return service.findAll();
 	}
-	
+
 	@GetMapping("/{id}")
 	public User getUserById(@PathVariable Long id) {
-	    return service.findById(id); 
+		return service.findById(id);
 	}
 
-	@PostMapping
-	public User createUser(@RequestBody User user) {
+	@PostMapping(produces = "application/json")
+	public User createUser(@Valid  @RequestBody User user) {
 		return service.save(user);
 	}
 
 	@PutMapping("/{id}")
-	public User updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-	    User user = service.findById(id);
-	    user.setName(userDetails.getName());
-	    user.setEmail(userDetails.getEmail());
-	    return service.save(user);
+	public User updateUser(@Valid  @PathVariable Long id, @RequestBody User userDetails) {
+		User user = service.findById(id);
+		user.setName(userDetails.getName());
+		user.setEmail(userDetails.getEmail());
+		return service.save(user);
 	}
-        
 
 	@DeleteMapping("/{id}")
 	public void deleteUser(@PathVariable Long id) {

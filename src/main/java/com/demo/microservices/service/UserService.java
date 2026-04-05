@@ -24,7 +24,9 @@ public class UserService {
     }
 
     public User save(User user) {
-        return repository.save(user);
+    	User saved = repository.save(user);
+    	System.out.println(">>> Salvo: " + saved);
+        return saved;
     }
 
     public void delete(Long id) {

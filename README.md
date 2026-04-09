@@ -1,123 +1,95 @@
-# Java Microservices Demo
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%232496ED.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
+![Swagger](https://img.shields.io/badge/-Swagger-%23C1272D?style=for-the-badge&logo=swagger&logoColor=white)
 
-Projeto de demonstração de microserviços em **Java Spring Boot** com integração ao **PostgreSQL** via Docker.  
-Inclui tratamento de exceções customizadas, documentação da API com **Swagger/OpenAPI** e testes unitários e de integração.
+🚀 Java Audit Service - Microservices
+Esta é uma API REST robusta desenvolvida em Java 22 com Spring Boot 3, focada em auditoria de eventos e persistência de logs distribuídos. O projeto atua como o serviço de suporte para o ecossistema de microsserviços, garantindo o rastreamento de todas as operações de negócio.
 
----
+🛠️ Tecnologias e Ferramentas
+Linguagem: Java 22 (JVM)
 
-## 🚀 Tecnologias
-- Java 17
-- Spring Boot 3.2.5
-- Spring Data JPA
-- PostgreSQL 15 (Docker)
-- PgAdmin 4
-- Maven
-- JUnit 5
-- Swagger/OpenAPI
+Framework: Spring Boot 3.2.5
 
----
+Persistência: Spring Data JPA & Hibernate
 
-## ⚙️ Configuração
+Banco de Dados: PostgreSQL 15
 
-### Pré-requisitos
-- Docker e Docker Compose instalados
-- Java 17
-- Maven
+Documentação: SpringDoc OpenAPI (Swagger)
 
-### Subindo os containers
-```bash
+Build Tool: Maven
+
+Infraestrutura: Docker & Docker Compose
+
+🏗️ Arquitetura do Projeto
+O projeto segue a estrutura padrão de camadas do Spring, garantindo separação de responsabilidades e alta manutenibilidade:
+
+model: Entidades JPA que definem a estrutura dos logs de auditoria.
+
+repository: Interfaces de comunicação com o banco de dados PostgreSQL.
+
+service: Lógica para processamento e filtragem de eventos recebidos.
+
+controller: Endpoints REST otimizados para recebimento de logs e consultas.
+
+config: Configurações de infraestrutura, CORS e personalização do OpenAPI.
+
+🚀 Como Rodar o Projeto
+Pré-requisitos
+JDK 17 ou 22
+
+Docker & Docker Compose
+
+1. Subir o Banco de Dados (PostgreSQL)
+Certifique-se de que o Postgres está rodando na porta 5433 para evitar conflitos com outros serviços:
+
 docker-compose up -d
 
-Isso irá iniciar:
+O container criará automaticamente o banco audit_db.
 
-Postgres em localhost:5433
+2. Compilar e Executar
 
-PgAdmin em http://localhost:8081
+# Limpar e compilar
+./mvnw clean install
 
-Configuração da aplicação
-Arquivo application-postgres.properties:
+# Executar a aplicação
+./mvnw spring-boot:run
 
-spring.datasource.url=jdbc:postgresql://localhost:5433/microservicesdb?sslmode=disable
-spring.datasource.username=postgres
-spring.datasource.password=postgres
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.defer-datasource-initialization=true
+A aplicação estará disponível em http://localhost:8083.
 
-Rodando a aplicação
-mvn spring-boot:run
+📖 Documentação da API
+Com a aplicação rodando, você pode acessar a interface interativa do Swagger para testar os endpoints e visualizar os schemas:
 
+🔗 Swagger UI: http://localhost:8083/swagger-ui/index.html
 
-📚 Endpoints
-Criar usuário
-
-POST /users
-Content-Type: application/json
-
-{
-  "name": "Vinicius",
-  "email": "vinicius@email.com"
-}
+📄 OpenAPI JSON: http://localhost:8083/v3/api-docs
 
 
-Listar usuários
-GET /users
+🧪 Endpoints Principais
+
+Método	                    Endpoint	                      Descrição
+
+GET	                        /audit	                        Lista todos os eventos de auditoria registrados.
+POST	                     /audit/log	                      Recebe e armazena um novo evento (UserId, Operação, etc).
+GET	                      /hello	                          Endpoint de health check para teste de conectividade.
 
 
-🛡️ Tratamento de Exceções
-O projeto inclui uma camada de exceções customizadas para respostas mais claras da API:
+🛡️ Observabilidade e Integração
+Este serviço foi desenhado para ser integrado via HTTP. Atualmente, recebe logs da Kotlin API Demo, registrando operações de:
 
-UserNotFoundException → retorna 404 Not Found
+CREATE: Quando um novo usuário é inserido.
 
-InvalidUserException → retorna 400 Bad Request
+UPDATE: Quando dados de usuários são alterados.
 
-GlobalExceptionHandler → captura exceções e retorna mensagens padronizadas em JSON
-
-Exemplo de resposta de erro:
-
-{
-  "timestamp": "2026-04-05T18:02:07.221+00:00",
-  "status": 400,
-  "error": "Bad Request",
-  "message": "Email inválido",
-  "path": "/users"
-}
+DELETE: Quando um rastro de remoção é necessário.
 
 
-📖 Documentação com Swagger
-A documentação da API é gerada automaticamente com Swagger/OpenAPI.
-Após subir a aplicação, acesse:
+Autor: Marcos Vinícius da Silva Barreto
 
-http://localhost:8080/swagger-ui.html
+LinkedIn: vinicius-barreto-devops
 
+GitHub: Vinicius-Infra
 
-🧪 Testes
-Unitários
-Implementados com JUnit 5, cobrindo:
-
-Criação de usuários (POST /users)
-
-Listagem de usuários (GET /users)
-
-Validação de campos obrigatórios
-
-Tratamento de exceções
-
-Integração
-Testes de integração garantem o funcionamento completo da aplicação com o banco de dados:
-
-Verificação da criação automática da tabela users
-
-Inserção e recuperação de registros reais
-
-Testes de endpoints via MockMvc
-
-Rodar testes:
-
-mvn test
-
-
-🗄️ Banco de Dados
-Após subir a aplicação, a tabela users será criada automaticamente:
-
-SELECT * FROM users;
+Developed with ❤️ and Java.
